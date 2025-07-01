@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentor Zografos | Αναλώσιμα Φαρμακείου | Διαφημιστικά | Συσκευασία</title>
+    <meta name="description" content="Η εταιρεία Mentor Zografos - Αναλώσιμα φαρμακείων, διαφημιστικά προϊόντα και υπηρεσίες εκτύπωσης από το 2009">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-brand">
+                    <img src="assets/logo.png" alt="Mentor Zografos" class="logo-img">
+                </div>
+                <div class="nav-menu" id="nav-menu">
+                    <a href="#home" class="nav-link">Αρχική</a>
+                    <a href="#about" class="nav-link">Σχετικά</a>
+                    <a href="#products" class="nav-link">Προϊόντα</a>
+                    <a href="#contact" class="nav-link">Επικοινωνία</a>
+                </div>
+                <div class="nav-toggle" id="nav-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="container">
+                <h1 class="hero-title">
+                    <span id="typewriter"></span>
+                    </h1>
+                <p class="hero-subtitle">
+                    Έξυπνες και πρωτοποριακές προτάσεις στο κλάδο προβολής και προώθησης 
+                    επιχειρήσεων σε πανελλαδική κλίμακα από το 2009
+                </p>
+                <div class="hero-buttons">
+                    <a href="#products" class="btn btn-primary">Δες τα Προϊόντα μας</a>
+                    <a href="#contact" class="btn btn-secondary">Επικοινωνία</a>
+                </div>
+            </div>
+        </div>
+        <div class="hero-background">
+        </div>
+        <div class="special-offer-popup" id="specialOfferPopup">
+            <button class="popup-close" id="popupClose">X</button>
+            <div class="offer-content">
+                <div class="offer-badge"><i class="fas fa-bullhorn"></i></div>
+                <h3>Special Offer</h3>
+                <p>Ειδικές προσφορές για όλα τα προϊόντα μας!</p>
+                <a href="#contact" class="btn btn-popup">Μάθετε Περισσότερα</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Σχετικά με εμάς</h2>
+                <p class="section-subtitle">16 χρόνια εμπειρίας στην προώθηση επιχειρήσεων</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        Η εταιρεία Mentor Zografos ξεκίνησε το 2009 με έξυπνες και πολλές πρωτοποριακές
+                        προτάσεις στο κλάδο προβολής και προώθησης των συνεργαζόμενων με αυτή
+                        επιχειρήσεων σε πανελλαδική κλίμακα.
+                    </p>
+                    <p>
+                        Με μοχλό ανάπτυξης και βασική δραστηριότητα από την αρχή τα αναλώσιμα
+                        φαρμακείων, πολύ σύντομα επεκτάθηκε σε συνεργασίες και με άλλους κλάδους ένεκα της
+                        ανάπτυξης σε εισαγωγές και εξαγωγές προϊόντων σε τιμές χονδρικής.
+                    </p>
+                </div>
+                <div class="about-features">
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-print"></i>
+                        </div>
+                        <h3>Υπηρεσίες Εκτύπωσης</h3>
+                        <p>Μεταξοτυπία, φλεξογραφία, ταμπόν, χρυσοτυπία και πολλά άλλα</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-shipping-fast"></i>
+                        </div>
+                        <h3>Εισαγωγές & Εξαγωγές</h3>
+                        <p>Προϊόντα σε τιμές χονδρικής σε πανελλαδική κλίμακα</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-pills"></i>
+                        </div>
+                        <h3>Αναλώσιμα Φαρμακείων</h3>
+                        <p>Ειδικευμένα προϊόντα για φαρμακεία και επιχειρήσεις υγείας</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Τα Προϊόντα μας</h2>
+                <p class="section-subtitle">Ολοκληρωμένη γκάμα διαφημιστικών και επαγγελματικών προϊόντων</p>
+            </div>
+            <div class="products-grid">
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-pills"></i>
+                    </div>
+                    <h3>Θήκες Χαπιών</h3>
+                    <p>Ειδικευμένες θήκες και συσκευασίες για φαρμακευτικά προϊόντα</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-folder"></i>
+                    </div>
+                    <h3>Νεσεσέρ Εγγράφων</h3>
+                    <p>Πρακτικές θήκες για την οργάνωση και μεταφορά εγγράφων</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <h3>Τσάντες</h3>
+                    <p>Διαφημιστικές τσάντες, χαρτοσακούλες, τσάντες non woven</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-snowflake"></i>
+                    </div>
+                    <h3>Ισοθερμικά</h3>
+                    <p>Τσάντες και κουτιά για τη διατήρηση θερμοκρασίας</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-backpack"><svg width="50%" height="50%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+ <path d="M20 13V17.8C20 18.9201 20 19.4802 19.782 19.908C19.5903 20.2843 19.2843 20.5903 18.908 20.782C18.4802 21 17.9201 21 16.8 21H7.2C6.0799 21 5.51984 21 5.09202 20.782C4.71569 20.5903 4.40973 20.2843 4.21799 19.908C4 19.4802 4 18.9201 4 17.8V13M9 10H15M9.28571 14H14.7143C16.8467 14 17.913 14 18.7355 13.6039C19.552 13.2107 20.2107 12.552 20.6039 11.7355C21 10.913 21 9.84674 21 7.71429C21 6.11494 21 5.31527 20.7029 4.69835C20.408 4.08603 19.914 3.59197 19.3017 3.29709C18.6847 3 17.8851 3 16.2857 3H7.71429C6.11494 3 5.31527 3 4.69835 3.29709C4.08603 3.59197 3.59197 4.08603 3.29709 4.69835C3 5.31527 3 6.11494 3 7.71429C3 9.84674 3 10.913 3.39612 11.7355C3.7893 12.552 4.44803 13.2107 5.26447 13.6039C6.08703 14 7.15326 14 9.28571 14Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+ </svg></i>
+                    </div>
+                    <h3>Σακίδια Πλάτης</h3>
+                    <p>Πρακτικά και άνετα σακίδια για κάθε χρήση</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <h3>Νεσεσέρ Καλλυντικών</h3>
+                    <p>Κομψές θήκες για καλλυντικά και προϊόντα περιποίησης</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <h3>Πουγγιά</h3>
+                    <p>Μικρές τσάντες και πουγγιά για διάφορες χρήσεις</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h3>Πορτοφόλια</h3>
+                    <p>Στυλάτα πορτοφόλια και θήκες για κάρτες</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <h3>Μπρελόκ</h3>
+                    <p>Διαφημιστικά μπρελόκ σε διάφορα σχέδια και υλικά</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-circle-notch"></i>
+                    </div>
+                    <h3>Κομπολόγια</h3>
+                    <p>Παραδοσιακά και σύγχρονα κομπολόγια</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h3>Κορδόνια Λαιμού</h3>
+                    <p>Κορδόνια για ταυτότητες και διακριτικά</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-venus"></i>
+                    </div>
+                    <h3>Woman</h3>
+                    <p>Ειδικά σχεδιασμένα προϊόντα για γυναίκες</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <h3>Παιδικά</h3>
+                    <p>Ασφαλή και χρωματιστά προϊόντα για παιδιά</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-pen"></i>
+                    </div>
+                    <h3>Στυλό</h3>
+                    <p>Διαφημιστικά στυλό σε διάφορα χρώματα και στυλ</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-burn"></i>
+                    </div>
+                    <h3>Αναπτήρες</h3>
+                    <p>Προσωποποιημένοι αναπτήρες για προώθηση</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Antistress</h3>
+                    <p>Παιχνίδια και αντικείμενα για την αντιμετώπιση του άγχους</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-hat-cowboy-side"></i>
+                    </div>
+                    <h3>Κάπελα Ψάθινα</h3>
+                    <p>Παραδοσιακά ψάθινα καπέλα για το καλοκαίρι</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-baseball-ball"></i>
+                    </div>
+                    <h3>Κάπελα με Γείσο</h3>
+                    <p>Αθλητικά και casual κάπελα με προστασία από τον ήλιο</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-fan"></i>
+                    </div>
+                    <h3>Βεντάλιες</h3>
+                    <p>Παραδοσιακές και σύγχρονες βεντάλιες</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-swimming-pool"></i>
+                    </div>
+                    <h3>Τσάντες Θάλασσης</h3>
+                    <p>Αδιάβροχες τσάντες για την παραλία και τη θάλασσα</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <h3>Ξενοδοχείο</h3>
+                    <p>Ειδικά προϊόντα και αναλώσιμα για ξενοδοχεία</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <h3>Καλοκαιρινά</h3>
+                    <p>Μπάλες θάλασσης, μπρατσάκια, frisbee, πετσέτες</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-trademark"></i>
+                    </div>
+                    <h3>Λογότυπα</h3>
+                    <p>Σχεδιασμός και εκτύπωση λογοτύπων</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <h3>Ετικέτες</h3>
+                    <p>Αυτοκόλλητες ετικέτες για κάθε χρήση</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <h3>Συσκευασία</h3>
+                    <p>Ολοκληρωμένες λύσεις συσκευασίας προϊόντων</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3>Κάρτες</h3>
+                    <p>Επαγγελματικές κάρτες και κάρτες μέλους</p>
+                </div>
+                <div class="product-category">
+                    <div class="product-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Ατζέντα 2026</h3>
+                    <p>Προγραμματίστε τη νέα χρονιά με στυλ</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Θα μας βρείτε</h2>
+                <p class="section-subtitle">Επικοινωνήστε μαζί μας για οποιαδήποτε πληροφορία</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Διεύθυνση</h3>
+                            <p>1ο χλμ. Χρυσούπολης – Κεραμωτής</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Τηλέφωνα</h3>
+                            <p>Τηλ.: 25910 23070</p>
+                            <p>Κιν.: 6936 504135</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Email</h3>
+                            <p>info@mentorzografos.gr</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Google Map -->
+                    <div class="contact-map">
+                        <h3>Βρείτε μας στο χάρτη</h3>
+                        <div class="map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3012.479894094833!2d24.696501199999997!3d40.970971399999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14ae9b2f73b53129%3A0xc762bb2e67173e0e!2sMENTORZOGRAFOS!5e0!3m2!1sel!2sgr!4v1751325041051!5m2!1sel!2sgr"
+                         width="600" 
+                         height="450" 
+                         style="border:0;" 
+                         allowfullscreen="" 
+                         loading="lazy" 
+                         referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>Φόρμα Επικοινωνίας</h3>
+                    <form id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" id="firstName" name="firstName" placeholder="Όνομα*" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="lastName" name="lastName" placeholder="Επώνυμο*" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="email" id="email" name="email" placeholder="Email*" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" id="phone" name="phone" placeholder="Τηλέφωνο*" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="Μήνυμα" rows="5"></textarea>
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <label>
+                                <input type="checkbox" id="gdprConsent" name="gdprConsent" required>
+                                <span class="checkmark"></span>
+                                Συμφωνώ με την επεξεργασία των προσωπικών μου δεδομένων σύμφωνα με τον GDPR
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-submit">Αποστολή</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 Mentor Zografos | Με επιφύλαξη κάθε νόμιμου δικαιώματος. | Κατασκευή - Φιλοξενία: <a href="https://mianagn.github.io">mianagn</a></p>
+                
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
