@@ -104,7 +104,54 @@ class CMSLoader {
                 // Remove quotes if present
                 value = value.replace(/^["']|["']$/g, '');
                 
-                // Handle multi-line values
+                // Handle YAML multiline indicators (>, >+, |, |+, etc.)
+                if (value.match(/^[>|][+-]?$/)) {
+                    const multilineIndicator = value;
+                    let multilineText = '';
+                    i++; // Move to next line
+                    
+                    // Collect all indented lines that follow
+                    while (i < lines.length) {
+                        const nextLine = lines[i];
+                        // If line is empty or starts with whitespace, it's part of the multiline value
+                        if (!nextLine.trim()) {
+                            // Empty line - for folded style (>) skip it, for literal style (|) keep it
+                            if (multilineIndicator.startsWith('|')) {
+                                multilineText += '\n';
+                            }
+                            i++;
+                            continue;
+                        }
+                        
+                        if (nextLine.startsWith('  ') || nextLine.startsWith('\t')) {
+                            // This line is part of the multiline value
+                            const lineContent = nextLine.replace(/^  /, '').replace(/^\t/, '');
+                            
+                            if (multilineIndicator.startsWith('>')) {
+                                // Folded style - join lines with space
+                                if (multilineText && !multilineText.endsWith(' ')) {
+                                    multilineText += ' ';
+                                }
+                                multilineText += lineContent;
+                            } else {
+                                // Literal style - preserve line breaks
+                                if (multilineText) multilineText += '\n';
+                                multilineText += lineContent;
+                            }
+                            i++;
+                        } else {
+                            // We've reached the end of the multiline block
+                            break;
+                        }
+                    }
+                    i--; // Back up one since the loop will increment
+                    
+                    // Clean up the multiline text
+                    result[key] = multilineText.trim();
+                    continue;
+                }
+                
+                // Handle multi-line values (without indicators)
                 if (value === '' && i + 1 < lines.length) {
                     // Check if next lines are indented (part of this value)
                     let nextLine = lines[i + 1];
@@ -137,9 +184,22 @@ class CMSLoader {
                             }
                             i--; // Back up one since the loop will increment
                         } else {
-                            // It's an object
-                            result[key] = {};
-                            // Handle nested objects if needed
+                            // It's a nested object or multiline string
+                            // Check if it's actually a continuing string from previous line
+                            result[key] = '';
+                            i++; // Move to next line
+                            while (i < lines.length) {
+                                const nextLine = lines[i].trim();
+                                if (!nextLine || (!nextLine.startsWith(' ') && !nextLine.startsWith('\t') && nextLine.includes(':'))) {
+                                    // This line is a new key or empty, so we're done with this value
+                                    break;
+                                }
+                                if (nextLine) {
+                                    result[key] += (result[key] ? ' ' : '') + nextLine;
+                                }
+                                i++;
+                            }
+                            i--; // Back up one since the loop will increment
                         }
                     }
                 } else {
@@ -211,13 +271,24 @@ class CMSLoader {
 
     updateHeroData(data) {
         console.log('Updating hero data:', data);
+        
+        // Add debugging for DOM element selection
+        const subtitle = document.querySelector('.hero-subtitle');
+        console.log('Hero subtitle element:', subtitle);
+        console.log('Hero subtitle data:', data.subtitle);
+        
         if (data && typeof data.title === 'string' && data.title.trim()) {
             // Update typewriter text (this will be handled by the existing typewriter script)
             window.heroTitle = data.title;
+            console.log('Updated hero title to:', data.title);
         }
         if (data && typeof data.subtitle === 'string' && data.subtitle.trim()) {
-            const subtitle = document.querySelector('.hero-subtitle');
-            if (subtitle) subtitle.textContent = data.subtitle;
+            if (subtitle) {
+                subtitle.textContent = data.subtitle;
+                console.log('Updated hero subtitle to:', data.subtitle);
+            } else {
+                console.warn('Hero subtitle element not found');
+            }
         }
         if (data && data.buttons && Array.isArray(data.buttons)) {
             const buttonsContainer = document.querySelector('.hero-buttons');
@@ -230,19 +301,37 @@ class CMSLoader {
                     btnElement.textContent = button.text || 'Button';
                     buttonsContainer.appendChild(btnElement);
                 });
+                console.log('Updated hero buttons');
+            } else {
+                console.warn('Hero buttons container not found');
             }
         }
     }
 
     updateAboutData(data) {
         console.log('Updating about data:', data);
+        
+        // Add debugging for DOM element selection
+        const title = document.querySelector('#about .section-title');
+        const subtitle = document.querySelector('#about .section-subtitle');
+        console.log('About title element:', title);
+        console.log('About subtitle element:', subtitle);
+        
         if (data && typeof data.title === 'string' && data.title.trim()) {
-            const title = document.querySelector('#about .section-title');
-            if (title) title.textContent = data.title;
+            if (title) {
+                title.textContent = data.title;
+                console.log('Updated about title to:', data.title);
+            } else {
+                console.warn('About title element not found');
+            }
         }
         if (data && typeof data.subtitle === 'string' && data.subtitle.trim()) {
-            const subtitle = document.querySelector('#about .section-subtitle');
-            if (subtitle) subtitle.textContent = data.subtitle;
+            if (subtitle) {
+                subtitle.textContent = data.subtitle;
+                console.log('Updated about subtitle to:', data.subtitle);
+            } else {
+                console.warn('About subtitle element not found');
+            }
         }
         if (data && data.content && Array.isArray(data.content)) {
             const textContainer = document.querySelector('.about-text');
@@ -255,6 +344,9 @@ class CMSLoader {
                         textContainer.appendChild(p);
                     }
                 });
+                console.log('Updated about content');
+            } else {
+                console.warn('About text container not found');
             }
         }
         if (data && data.features && Array.isArray(data.features)) {
@@ -412,6 +504,28 @@ class CMSLoader {
 }
 
 // Initialize CMS loader when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    new CMSLoader();
-});
+function initializeCMS() {
+    console.log('Initializing CMS loader...');
+    try {
+        window.cmsLoader = new CMSLoader();
+        console.log('CMS Loader initialized successfully');
+    } catch (error) {
+        console.error('Failed to initialize CMS loader:', error);
+    }
+}
+
+// Multiple initialization approaches to ensure it runs
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeCMS);
+} else {
+    // DOM is already ready
+    initializeCMS();
+}
+
+// Fallback initialization with longer delay to ensure all scripts are loaded
+setTimeout(() => {
+    if (!window.cmsLoader) {
+        console.log('Fallback CMS initialization...');
+        initializeCMS();
+    }
+}, 2000);

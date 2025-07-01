@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS Test - Simple</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .hero-subtitle, .section-subtitle { font-weight: bold; color: #333; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>CMS Loader Test</h1>
+    
+    <div class="test-section">
+        <h2>Hero Section Test</h2>
+        <p class="hero-subtitle">Original hero subtitle text</p>
+    </div>
+    
+    <div class="test-section">
+        <h2>About Section Test</h2>
+        <div id="about">
+            <p class="section-subtitle">Original about subtitle text</p>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Products Section Test</h2>
+        <div id="products">
+            <p class="section-subtitle">Original products subtitle text</p>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Debug Information</h2>
+        <div id="debug-info">
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <script src="cms-loader.js"></script>
+    <script>
+        // Add some debugging
+        setTimeout(() => {
+            const debugDiv = document.getElementById('debug-info');
+            debugDiv.innerHTML = `
+                <p><strong>CMS Loader Status:</strong> ${window.cmsLoader ? 'Loaded' : 'Not loaded'}</p>
+                <p><strong>Hero Subtitle:</strong> ${document.querySelector('.hero-subtitle').textContent}</p>
+                <p><strong>About Subtitle:</strong> ${document.querySelector('#about .section-subtitle').textContent}</p>
+                <p><strong>Products Subtitle:</strong> ${document.querySelector('#products .section-subtitle').textContent}</p>
+            `;
+        }, 2000);
+    </script>
+</body>
+</html>
