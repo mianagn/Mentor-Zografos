@@ -160,6 +160,45 @@ If you see "[object Object]" on first deploy:
 2. After setting up Netlify Identity and creating content via CMS, the display will be correct
 3. The CMS creates the YAML files automatically when you save content
 
+### Empty Admin Page (/admin/)
+If the admin page is completely blank:
+
+1. **Check Browser Console:**
+   - Open Developer Tools (F12)
+   - Look for JavaScript errors in Console tab
+   - Common errors: 404 for config.yml, Identity not loaded
+
+2. **Verify Files Exist:**
+   - Ensure `admin/config.yml` exists in your repository
+   - Ensure `admin/index.html` is properly configured
+   - Check that files are deployed to Netlify (not just local)
+
+3. **Clear Cache and Hard Refresh:**
+   - Press Ctrl+Shift+R (Windows) or Cmd+Shift+R (Mac)
+   - Or clear browser cache completely
+
+4. **Check Identity Status:**
+   - Are you logged in? Look for user icon/menu
+   - Try logging out and back in: `yoursite.netlify.app/admin/#/`
+   - Check Netlify Identity tab for user status
+
+5. **Repository Issues:**
+   - Ensure latest code is pushed to GitHub
+   - Check Netlify build logs for errors
+   - Verify Git Gateway has repository access
+
+6. **Try Different Browser:**
+   - Test in incognito/private mode
+   - Try a different browser entirely
+
+### Quick Debug Steps:
+```javascript
+// Open browser console on admin page and run:
+console.log('Config exists:', window.CMS?.getBackend());
+console.log('Identity loaded:', !!window.netlifyIdentity);
+console.log('User logged in:', window.netlifyIdentity?.currentUser());
+```
+
 ## Development Tips
 
 1. **Test Locally**: You can edit YAML files directly for quick testing

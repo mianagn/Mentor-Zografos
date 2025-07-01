@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>CMS Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .pass { background: #d4edda; border-color: #c3e6cb; }
+        .fail { background: #f8d7da; border-color: #f5c6cb; }
+        .info { background: #d1ecf1; border-color: #bee5eb; }
+    </style>
+</head>
+<body>
+    <h1>Netlify CMS Debug Page</h1>
+    <div id="tests"></div>
+    
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script>
+        const tests = document.getElementById('tests');
+        
+        function addTest(name, condition, details = '') {
+            const div = document.createElement('div');
+            div.className = `test ${condition ? 'pass' : 'fail'}`;
+            div.innerHTML = `
+                <strong>${name}:</strong> ${condition ? '✅ PASS' : '❌ FAIL'}
+                ${details ? `<br><small>${details}</small>` : ''}
+            `;
+            tests.appendChild(div);
+        }
+        
+        function addInfo(name, info) {
+            const div = document.createElement('div');
+            div.className = 'test info';
+            div.innerHTML = `<strong>${name}:</strong> ${info}`;
+            tests.appendChild(div);
+        }
+        
+        // Run tests
+        setTimeout(() => {
+            // Test 1: Netlify Identity loaded
+            addTest('Netlify Identity Loaded', !!window.netlifyIdentity);
+            
+            // Test 2: User logged in
+            const user = window.netlifyIdentity?.currentUser();
+            addTest('User Logged In', !!user, user ? `User: ${user.email}` : 'No user found');
+            
+            // Test 3: Config.yml accessible
+            fetch('/admin/config.yml')
+                .then(response => {
+                    addTest('Config.yml Accessible', response.ok, `Status: ${response.status}`);
+                    return response.text();
+                })
+                .then(text => {
+                    addInfo('Config Preview', text.substring(0, 200) + '...');
+                })
+                .catch(err => {
+                    addTest('Config.yml Accessible', false, `Error: ${err.message}`);
+                });
+            
+            // Test 4: Check current URL
+            addInfo('Current URL', window.location.href);
+            addInfo('User Agent', navigator.userAgent);
+            
+            // Test 5: Check for YAML data files
+            const dataFiles = ['site.yml', 'hero.yml', 'about.yml', 'products.yml', 'contact.yml'];
+            dataFiles.forEach(file => {
+                fetch(`/_data/${file}`)
+                    .then(response => {
+                        addTest(`Data file: ${file}`, response.ok, `Status: ${response.status}`);
+                    })
+                    .catch(err => {
+                        addTest(`Data file: ${file}`, false, `Error: ${err.message}`);
+                    });
+            });
+            
+        }, 1000);
+        
+        // Identity event listeners
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on('init', user => {
+                addInfo('Identity Init', user ? `Initialized with user: ${user.email}` : 'Initialized without user');
+            });
+            
+            window.netlifyIdentity.on('login', user => {
+                addInfo('Login Event', `User logged in: ${user.email}`);
+                location.reload();
+            });
+        }
+    </script>
+</body>
+</html>
