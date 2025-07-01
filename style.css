@@ -841,8 +841,8 @@ section {
 
     /* Mobile Hero Section Improvements */
     .hero {
-        min-height: 100vh; /* Increased from 80vh for bigger hero */
-        padding-top: 100px; /* Add top padding to prevent content being too close to top */
+        min-height: 80vh; /* Increased from 80vh for bigger hero */
+        padding-top: 60px; /* Add top padding to prevent content being too close to top */
     }
 
     .hero-content {
