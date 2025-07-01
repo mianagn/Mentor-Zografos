@@ -75,7 +75,10 @@ class CMSLoader {
             const response = await fetch(`${this.dataPath}${filename}`);
             if (!response.ok) throw new Error(`Failed to load ${filename}`);
             const yamlText = await response.text();
-            return this.parseYAML(yamlText);
+            console.log(`Loading ${filename}:`, yamlText.substring(0, 200) + '...');
+            const parsed = this.parseYAML(yamlText);
+            console.log(`Parsed ${filename}:`, parsed);
+            return parsed;
         } catch (error) {
             console.warn(`Could not load ${filename}:`, error);
             return null;
@@ -86,85 +89,70 @@ class CMSLoader {
         // Enhanced YAML parser for the CMS data structure
         const lines = yamlText.split('\n');
         const result = {};
-        const stack = [{ obj: result, indent: -1 }];
-        let currentArray = null;
-        let currentArrayKey = null;
-
-        for (let line of lines) {
-            const originalLine = line;
-            line = line.trimRight();
+        
+        // Simple line-by-line parser for basic key-value pairs
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i].trim();
             if (!line || line.startsWith('#')) continue;
-
-            const indent = originalLine.length - originalLine.trimLeft().length;
-            line = line.trim();
-
-            // Pop stack to correct level
-            while (stack.length > 1 && stack[stack.length - 1].indent >= indent) {
-                stack.pop();
-            }
-
-            const current = stack[stack.length - 1];
-
-            if (line.startsWith('- ')) {
-                // Array item
-                const content = line.substring(2).trim();
-                
-                if (!currentArray || currentArrayKey !== current.lastKey) {
-                    currentArray = [];
-                    currentArrayKey = current.lastKey;
-                    if (current.lastKey) {
-                        current.obj[current.lastKey] = currentArray;
-                    }
-                }
-
-                if (content.includes(': ')) {
-                    // Object in array
-                    const obj = {};
-                    const parts = content.split(': ');
-                    if (parts.length === 2) {
-                        obj[parts[0].trim()] = parts[1].trim().replace(/^["']|["']$/g, '');
-                    }
-                    currentArray.push(obj);
-                    stack.push({ obj: obj, indent: indent, lastKey: null });
-                } else {
-                    // Simple value in array
-                    currentArray.push(content.replace(/^["']|["']$/g, ''));
-                }
-            } else if (line.includes(': ') && !line.startsWith('- ')) {
-                // Key-value pair
+            
+            // Handle simple key: value pairs
+            if (line.includes(': ') && !line.startsWith('- ')) {
                 const colonIndex = line.indexOf(': ');
                 const key = line.substring(0, colonIndex).trim();
-                const value = line.substring(colonIndex + 2).trim();
+                let value = line.substring(colonIndex + 2).trim();
                 
-                current.lastKey = key;
-                currentArray = null;
-                currentArrayKey = null;
-
-                if (value === '' || value === '{}' || value === '[]') {
-                    // Empty value, expect nested content
-                    if (value === '[]') {
-                        current.obj[key] = [];
-                    } else {
-                        current.obj[key] = {};
-                        stack.push({ obj: current.obj[key], indent: indent, lastKey: null });
+                // Remove quotes if present
+                value = value.replace(/^["']|["']$/g, '');
+                
+                // Handle multi-line values
+                if (value === '' && i + 1 < lines.length) {
+                    // Check if next lines are indented (part of this value)
+                    let nextLine = lines[i + 1];
+                    if (nextLine && (nextLine.startsWith('  ') || nextLine.startsWith('\t'))) {
+                        // This is a multi-line or nested value
+                        if (nextLine.trim().startsWith('-')) {
+                            // It's an array
+                            result[key] = [];
+                            i++; // Move to next line
+                            while (i < lines.length) {
+                                const arrayLine = lines[i].trim();
+                                if (!arrayLine) {
+                                    i++;
+                                    continue;
+                                }
+                                if (!arrayLine.startsWith('-')) break;
+                                
+                                const arrayValue = arrayLine.substring(1).trim();
+                                if (arrayValue.includes(': ')) {
+                                    // Object in array
+                                    const obj = {};
+                                    const parts = arrayValue.split(': ');
+                                    obj[parts[0].trim()] = parts[1].trim().replace(/^["']|["']$/g, '');
+                                    result[key].push(obj);
+                                } else {
+                                    // Simple value in array
+                                    result[key].push(arrayValue.replace(/^["']|["']$/g, ''));
+                                }
+                                i++;
+                            }
+                            i--; // Back up one since the loop will increment
+                        } else {
+                            // It's an object
+                            result[key] = {};
+                            // Handle nested objects if needed
+                        }
                     }
                 } else {
-                    // Direct value
-                    const cleanValue = value.replace(/^["']|["']$/g, '');
-                    if (cleanValue === 'true') current.obj[key] = true;
-                    else if (cleanValue === 'false') current.obj[key] = false;
-                    else if (!isNaN(cleanValue) && cleanValue !== '') current.obj[key] = Number(cleanValue);
-                    else current.obj[key] = cleanValue;
-                }
-            } else if (line && current.lastKey && !line.includes(':')) {
-                // Continuation of previous value
-                const cleanValue = line.replace(/^["']|["']$/g, '');
-                if (typeof current.obj[current.lastKey] === 'string') {
-                    current.obj[current.lastKey] += ' ' + cleanValue;
+                    // Simple value
+                    if (value === 'true') result[key] = true;
+                    else if (value === 'false') result[key] = false;
+                    else if (!isNaN(value) && value !== '') result[key] = Number(value);
+                    else result[key] = value;
                 }
             }
         }
-
+        
+        console.log('YAML parsing result:', result);
         return result;
     }
 
