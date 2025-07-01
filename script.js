@@ -74,7 +74,7 @@ window.addEventListener('scroll', function() {
     }
 });
 
-// Contact Form Handling
+// Contact Form Handling with EmailJS
 document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -107,11 +107,45 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
         return;
     }
 
-    // Show success message (in a real application, you would send this to a server)
-    alert('Ευχαριστούμε για το μήνυμά σας! Θα επικοινωνήσουμε μαζί σας σύντομα.');
-    
-    // Reset form
-    this.reset();
+    // Show loading state
+    const submitBtn = this.querySelector('.btn-submit');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Αποστολή...';
+    submitBtn.disabled = true;
+
+    // EmailJS configuration
+    const serviceID = 'YOUR_SERVICE_ID'; // You'll get this from EmailJS
+    const templateID = 'YOUR_TEMPLATE_ID'; // You'll get this from EmailJS
+    const publicKey = 'YOUR_PUBLIC_KEY'; // You'll get this from EmailJS
+
+    // Template parameters for EmailJS
+    const templateParams = {
+        from_name: `${data.firstName} ${data.lastName}`,
+        from_email: data.email,
+        phone: data.phone,
+        message: data.message || 'Δεν υπάρχει μήνυμα',
+        to_email: 'mixalisanagnostou2003@gmail.com', // Your email for testing
+        reply_to: data.email
+    };
+
+    // Send email using EmailJS
+    emailjs.send(serviceID, templateID, templateParams, publicKey)
+        .then(function(response) {
+            console.log('SUCCESS!', response.status, response.text);
+            alert('Ευχαριστούμε για το μήνυμά σας! Θα επικοινωνήσουμε μαζί σας σύντομα.');
+            
+            // Reset form
+            document.getElementById('contactForm').reset();
+        })
+        .catch(function(error) {
+            console.log('FAILED...', error);
+            alert('Σφάλμα κατά την αποστολή. Παρακαλώ δοκιμάστε ξανά ή επικοινωνήστε μαζί μας απευθείας.');
+        })
+        .finally(function() {
+            // Reset button state
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        });
 });
 
 // Intersection Observer for Animations

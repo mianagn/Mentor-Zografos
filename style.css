@@ -765,19 +765,35 @@ section {
     .special-offer-popup {
         max-width: 240px;
         padding: 1.5rem;
+        /* Optimize transitions for better mobile performance */
+        transition: width 0.3s ease, height 0.3s ease, border-radius 0.3s ease, 
+                    padding 0.3s ease, background 0.3s ease;
+        /* Reduce blur for better performance */
+        backdrop-filter: blur(5px);
+        /* Use transform3d for hardware acceleration */
+        transform: translate3d(0, 0, 0);
+        will-change: transform, width, height;
     }
     
     .popup-close {
         top: 0.4rem;
         right: 0.4rem;
-        width: 18px;
-        height: 18px;
-        font-size: 11px;
+        width: 22px; /* Increased from 18px */
+        height: 22px; /* Increased from 18px */
+        font-size: 13px; /* Increased from 11px */
     }
     
     .special-offer-popup.minimized {
         width: 50px;
         height: 50px;
+        /* Disable animation on mobile to prevent lag */
+        animation: none;
+    }
+    
+    .special-offer-popup.minimized:hover {
+        /* Reduce scale for mobile to prevent lag */
+        transform: scale(1.05) translate3d(0, 0, 0);
+        transition: transform 0.2s ease;
     }
     
     .special-offer-popup.minimized .popup-close {
@@ -883,6 +899,17 @@ section {
         max-width: 250px;
         margin: 0;
         padding: 1.5rem;
+        /* Mobile-optimized transitions */
+        transition: width 0.25s ease, height 0.25s ease, border-radius 0.25s ease;
+        /* Remove expensive backdrop filter on mobile */
+        backdrop-filter: none;
+        /* Use simpler background */
+        background: rgba(255, 255, 255, 0.98);
+        /* Hardware acceleration */
+        transform: translate3d(0, 0, 0);
+        will-change: transform;
+        /* Disable floating animation on mobile */
+        animation: none;
     }
 
     section {
@@ -981,6 +1008,28 @@ section {
         padding: 0.8rem;
         bottom: 0.5rem;
         right: 0.5rem;
+        /* Ultra-fast transitions for small mobile */
+        transition: width 0.2s ease, height 0.2s ease, border-radius 0.2s ease;
+        /* No backdrop filter for performance */
+        backdrop-filter: none;
+        background: rgba(255, 255, 255, 0.98);
+        /* Hardware acceleration */
+        transform: translate3d(0, 0, 0);
+        /* No animations on small mobile */
+        animation: none;
+    }
+
+    .special-offer-popup.minimized {
+        /* Smaller minimized size for mobile */
+        width: 40px;
+        height: 40px;
+        padding: 0.3rem;
+    }
+
+    .special-offer-popup.minimized:hover {
+        /* Very subtle hover effect on mobile */
+        transform: scale(1.02) translate3d(0, 0, 0);
+        transition: transform 0.15s ease;
     }
 
     .special-offer-popup h3 {
@@ -1005,20 +1054,16 @@ section {
     .popup-close {
         top: 0.3rem;
         right: 0.3rem;
-        width: 16px;
-        height: 16px;
-        font-size: 10px;
+        width: 20px; /* Increased from 16px */
+        height: 20px; /* Increased from 16px */
+        font-size: 12px; /* Increased from 10px */
+        /* Faster transition for close button */
+        transition: background 0.15s ease, transform 0.15s ease;
     }
 
-    .popup-minimized {
-        width: 40px;
-        height: 40px;
-        padding: 0.3rem;
-        border-radius: 50%;
-    }
-
-    .popup-minimized .popup-close {
-        display: none;
+    .popup-close:hover {
+        /* Subtle hover effect */
+        transform: scale(1.05);
     }
 
     .popup-minimized::after {
