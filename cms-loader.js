@@ -4,14 +4,46 @@
 class CMSLoader {
     constructor() {
         this.dataPath = '_data/';
+        this.fallbackData = this.getDefaultData();
         this.init();
+    }
+
+    getDefaultData() {
+        return {
+            site: {
+                title: "Mentor Zografos | Αναλώσιμα Φαρμακείου | Διαφημιστικά | Συσκευασία",
+                description: "Η εταιρεία Mentor Zografos - Αναλώσιμα φαρμακείων, διαφημιστικά προϊόντα και υπηρεσίες εκτύπωσης από το 2009",
+                logo: "/assets/logo.png"
+            },
+            hero: {
+                title: "Τα πάντα για σένα και την επιχείρησή σου!",
+                subtitle: "Έξυπνες και πρωτοποριακές προτάσεις στο κλάδο προβολής και προώθησης επιχειρήσεων σε πανελλαδική κλίμακα από το 2009"
+            },
+            about: {
+                title: "Σχετικά με εμάς",
+                subtitle: "16 χρόνια εμπειρίας στην προώθηση επιχειρήσεων"
+            },
+            products: {
+                title: "Τα Προϊόντα μας",
+                subtitle: "Ολοκληρωμένη γκάμα διαφημιστικών και επαγγελματικών προϊόντων"
+            },
+            contact: {
+                title: "Θα μας βρείτε",
+                subtitle: "Επικοινωνήστε μαζί μας για οποιαδήποτε πληροφορία"
+            },
+            specialOffer: {
+                enabled: false
+            }
+        };
     }
 
     async init() {
         try {
+            console.log('Initializing CMS Loader...');
             await this.loadAllData();
         } catch (error) {
-            console.log('CMS data not found, using default content');
+            console.log('CMS data not found, using default content:', error);
+            this.loadFallbackData();
         }
     }
 
@@ -114,6 +146,7 @@ class CMSLoader {
     }
 
     async loadAllData() {
+        console.log('Loading CMS data from YAML files...');
         const [site, hero, about, products, contact, navigation, footer, specialOffer] = await Promise.all([
             this.loadYAML('site.yml'),
             this.loadYAML('hero.yml'),
@@ -125,48 +158,64 @@ class CMSLoader {
             this.loadYAML('special_offer.yml')
         ]);
 
-        if (site) this.updateSiteData(site);
-        if (hero) this.updateHeroData(hero);
-        if (about) this.updateAboutData(about);
-        if (products) this.updateProductsData(products);
-        if (contact) this.updateContactData(contact);
+        // Use CMS data if available, otherwise use fallback
+        this.updateSiteData(site || this.fallbackData.site);
+        this.updateHeroData(hero || this.fallbackData.hero);
+        this.updateAboutData(about || this.fallbackData.about);
+        this.updateProductsData(products || this.fallbackData.products);
+        this.updateContactData(contact || this.fallbackData.contact);
+        this.updateSpecialOfferData(specialOffer || this.fallbackData.specialOffer);
+        
         if (navigation) this.updateNavigationData(navigation);
         if (footer) this.updateFooterData(footer);
-        if (specialOffer) this.updateSpecialOfferData(specialOffer);
+        
+        console.log('CMS data loaded successfully');
+    }
+
+    loadFallbackData() {
+        console.log('Loading fallback data...');
+        this.updateSiteData(this.fallbackData.site);
+        this.updateHeroData(this.fallbackData.hero);
+        this.updateAboutData(this.fallbackData.about);
+        this.updateProductsData(this.fallbackData.products);
+        this.updateContactData(this.fallbackData.contact);
+        this.updateSpecialOfferData(this.fallbackData.specialOffer);
     }
 
     updateSiteData(data) {
-        if (data.title) {
+        console.log('Updating site data:', data);
+        if (data && data.title) {
             document.title = data.title;
         }
-        if (data.description) {
+        if (data && data.description) {
             const metaDesc = document.querySelector('meta[name="description"]');
             if (metaDesc) metaDesc.content = data.description;
         }
-        if (data.logo) {
+        if (data && data.logo) {
             const logoImg = document.querySelector('.logo-img');
             if (logoImg) logoImg.src = data.logo;
         }
     }
 
     updateHeroData(data) {
-        if (data.title) {
+        console.log('Updating hero data:', data);
+        if (data && data.title) {
             // Update typewriter text (this will be handled by the existing typewriter script)
             window.heroTitle = data.title;
         }
-        if (data.subtitle) {
+        if (data && data.subtitle) {
             const subtitle = document.querySelector('.hero-subtitle');
             if (subtitle) subtitle.textContent = data.subtitle;
         }
-        if (data.buttons && Array.isArray(data.buttons)) {
+        if (data && data.buttons && Array.isArray(data.buttons)) {
             const buttonsContainer = document.querySelector('.hero-buttons');
             if (buttonsContainer) {
                 buttonsContainer.innerHTML = '';
                 data.buttons.forEach(button => {
                     const btnElement = document.createElement('a');
-                    btnElement.href = button.link;
-                    btnElement.className = `btn btn-${button.style}`;
-                    btnElement.textContent = button.text;
+                    btnElement.href = button.link || '#';
+                    btnElement.className = `btn btn-${button.style || 'primary'}`;
+                    btnElement.textContent = button.text || 'Button';
                     buttonsContainer.appendChild(btnElement);
                 });
             }
@@ -174,144 +223,167 @@ class CMSLoader {
     }
 
     updateAboutData(data) {
-        if (data.title) {
+        console.log('Updating about data:', data);
+        if (data && data.title) {
             const title = document.querySelector('#about .section-title');
             if (title) title.textContent = data.title;
         }
-        if (data.subtitle) {
+        if (data && data.subtitle) {
             const subtitle = document.querySelector('#about .section-subtitle');
             if (subtitle) subtitle.textContent = data.subtitle;
         }
-        if (data.content && Array.isArray(data.content)) {
+        if (data && data.content && Array.isArray(data.content)) {
             const textContainer = document.querySelector('.about-text');
             if (textContainer) {
                 textContainer.innerHTML = '';
                 data.content.forEach(paragraph => {
-                    const p = document.createElement('p');
-                    p.textContent = paragraph;
-                    textContainer.appendChild(p);
+                    if (typeof paragraph === 'string') {
+                        const p = document.createElement('p');
+                        p.textContent = paragraph;
+                        textContainer.appendChild(p);
+                    }
                 });
             }
         }
-        if (data.features && Array.isArray(data.features)) {
+        if (data && data.features && Array.isArray(data.features)) {
             const featuresContainer = document.querySelector('.about-features');
             if (featuresContainer) {
                 featuresContainer.innerHTML = '';
                 data.features.forEach(feature => {
-                    const featureDiv = document.createElement('div');
-                    featureDiv.className = 'feature';
-                    featureDiv.innerHTML = `
-                        <div class="feature-icon">
-                            <i class="${feature.icon}"></i>
-                        </div>
-                        <h3>${feature.title}</h3>
-                        <p>${feature.description}</p>
-                    `;
-                    featuresContainer.appendChild(featureDiv);
+                    if (feature && feature.title) {
+                        const featureDiv = document.createElement('div');
+                        featureDiv.className = 'feature';
+                        featureDiv.innerHTML = `
+                            <div class="feature-icon">
+                                <i class="${feature.icon || 'fas fa-star'}"></i>
+                            </div>
+                            <h3>${feature.title}</h3>
+                            <p>${feature.description || ''}</p>
+                        `;
+                        featuresContainer.appendChild(featureDiv);
+                    }
                 });
             }
         }
     }
 
     updateProductsData(data) {
-        if (data.title) {
+        console.log('Updating products data:', data);
+        if (data && data.title) {
             const title = document.querySelector('#products .section-title');
             if (title) title.textContent = data.title;
         }
-        if (data.subtitle) {
+        if (data && data.subtitle) {
             const subtitle = document.querySelector('#products .section-subtitle');
             if (subtitle) subtitle.textContent = data.subtitle;
         }
-        if (data.categories && Array.isArray(data.categories)) {
+        if (data && data.categories && Array.isArray(data.categories)) {
             const grid = document.querySelector('.products-grid');
             if (grid) {
                 grid.innerHTML = '';
                 data.categories.forEach(category => {
-                    const categoryDiv = document.createElement('div');
-                    categoryDiv.className = 'product-category';
-                    if (category.featured) {
-                        categoryDiv.classList.add('featured');
+                    if (category && category.name) {
+                        const categoryDiv = document.createElement('div');
+                        categoryDiv.className = 'product-category';
+                        if (category.featured) {
+                            categoryDiv.classList.add('featured');
+                        }
+                        categoryDiv.innerHTML = `
+                            <div class="product-icon">
+                                <i class="${category.icon || 'fas fa-box'}"></i>
+                            </div>
+                            <h3>${category.name}</h3>
+                            <p>${category.description || ''}</p>
+                        `;
+                        grid.appendChild(categoryDiv);
                     }
-                    categoryDiv.innerHTML = `
-                        <div class="product-icon">
-                            <i class="${category.icon}"></i>
-                        </div>
-                        <h3>${category.name}</h3>
-                        <p>${category.description}</p>
-                    `;
-                    grid.appendChild(categoryDiv);
                 });
             }
         }
     }
 
     updateContactData(data) {
-        if (data.title) {
+        console.log('Updating contact data:', data);
+        if (data && data.title) {
             const title = document.querySelector('#contact .section-title');
             if (title) title.textContent = data.title;
         }
-        if (data.subtitle) {
+        if (data && data.subtitle) {
             const subtitle = document.querySelector('#contact .section-subtitle');
             if (subtitle) subtitle.textContent = data.subtitle;
         }
         
-        // Update contact items
+        // Update contact items only if all required data is present
         const contactInfo = document.querySelector('.contact-info');
-        if (contactInfo && data.address && data.phones && data.email) {
+        if (contactInfo && data && data.address && data.phones && data.email) {
             // Update address
             const addressP = contactInfo.querySelector('.contact-item:first-child .contact-details p');
-            if (addressP) addressP.textContent = data.address.street;
+            if (addressP && data.address.street) {
+                addressP.textContent = data.address.street;
+            }
             
             // Update phones
             const phoneDetails = contactInfo.querySelector('.contact-item:nth-child(2) .contact-details');
-            if (phoneDetails && data.phones) {
+            if (phoneDetails && data.phones && Array.isArray(data.phones)) {
                 phoneDetails.innerHTML = '<h3>Τηλέφωνα</h3>';
                 data.phones.forEach(phone => {
-                    const p = document.createElement('p');
-                    p.textContent = `${phone.label}: ${phone.number}`;
-                    phoneDetails.appendChild(p);
+                    if (phone && phone.label && phone.number) {
+                        const p = document.createElement('p');
+                        p.textContent = `${phone.label}: ${phone.number}`;
+                        phoneDetails.appendChild(p);
+                    }
                 });
             }
             
             // Update email
             const emailP = contactInfo.querySelector('.contact-item:nth-child(3) .contact-details p');
-            if (emailP) emailP.textContent = data.email;
+            if (emailP && data.email) emailP.textContent = data.email;
         }
         
-        if (data.map_embed) {
+        if (data && data.map_embed) {
             const iframe = document.querySelector('.map-container iframe');
             if (iframe) iframe.src = data.map_embed;
         }
     }
 
     updateNavigationData(data) {
-        if (data.items && Array.isArray(data.items)) {
+        console.log('Updating navigation data:', data);
+        if (data && data.items && Array.isArray(data.items)) {
             const navMenu = document.querySelector('.nav-menu');
             if (navMenu) {
                 navMenu.innerHTML = '';
-                data.items.sort((a, b) => a.order - b.order).forEach(item => {
-                    const link = document.createElement('a');
-                    link.href = item.link;
-                    link.className = 'nav-link';
-                    link.textContent = item.text;
-                    navMenu.appendChild(link);
-                });
+                data.items
+                    .sort((a, b) => (a.order || 0) - (b.order || 0))
+                    .forEach(item => {
+                        if (item && item.text && item.link) {
+                            const link = document.createElement('a');
+                            link.href = item.link;
+                            link.className = 'nav-link';
+                            link.textContent = item.text;
+                            navMenu.appendChild(link);
+                        }
+                    });
             }
         }
     }
 
     updateFooterData(data) {
+        console.log('Updating footer data:', data);
         const footerBottom = document.querySelector('.footer-bottom p');
-        if (footerBottom) {
-            footerBottom.innerHTML = `${data.copyright} | Κατασκευή - Φιλοξενία: <a href="${data.developer_link}">${data.developer_name}</a>`;
+        if (footerBottom && data) {
+            const copyright = data.copyright || '© 2025 Mentor Zografos | Με επιφύλαξη κάθε νόμιμου δικαιώματος.';
+            const devName = data.developer_name || 'mianagn';
+            const devLink = data.developer_link || 'https://mianagn.github.io';
+            footerBottom.innerHTML = `${copyright} | Κατασκευή - Φιλοξενία: <a href="${devLink}">${devName}</a>`;
         }
     }
 
     updateSpecialOfferData(data) {
+        console.log('Updating special offer data:', data);
         const popup = document.querySelector('#specialOfferPopup');
         if (!popup) return;
         
-        if (!data.enabled) {
+        if (!data || !data.enabled) {
             popup.style.display = 'none';
             return;
         }

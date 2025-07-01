@@ -132,6 +132,13 @@ For product categories and features, use FontAwesome icon classes:
 
 ## Troubleshooting
 
+### "[object Object]" Text Appearing
+This happens when CMS data isn't loaded properly. To fix:
+1. **On fresh deploy**: The site will show default content until CMS data is created
+2. **Check data files**: Ensure `_data/` folder and YAML files are in your repository
+3. **Browser cache**: Clear cache and hard refresh (Ctrl+F5)
+4. **Console errors**: Check browser developer tools for JavaScript errors
+
 ### CMS Not Loading
 - Check that Git Gateway is enabled in Netlify
 - Verify the repository is connected
@@ -146,6 +153,12 @@ For product categories and features, use FontAwesome icon classes:
 - Check that images are uploaded through the CMS
 - Verify file paths in the YAML files
 - Ensure images are in the correct upload folder
+
+### First-Time Setup Issues
+If you see "[object Object]" on first deploy:
+1. This is normal - the site uses fallback content until CMS is set up
+2. After setting up Netlify Identity and creating content via CMS, the display will be correct
+3. The CMS creates the YAML files automatically when you save content
 
 ## Development Tips
 
