@@ -1,0 +1,139 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "site_settings"
+    label: "Site Settings"
+    files:
+      - file: "_data/site.yml"
+        label: "Site Configuration"
+        name: "site_config"
+        fields:
+          - { label: "Site Title", name: "title", widget: "string" }
+          - { label: "Meta Description", name: "description", widget: "text" }
+          - { label: "Logo", name: "logo", widget: "image" }
+          - { label: "White Logo", name: "logo_white", widget: "image" }
+
+  - name: "hero"
+    label: "Hero Section"
+    files:
+      - file: "_data/hero.yml"
+        label: "Hero Content"
+        name: "hero_content"
+        fields:
+          - { label: "Main Title", name: "title", widget: "string", hint: "This will use typewriter effect" }
+          - { label: "Subtitle", name: "subtitle", widget: "text" }
+          - label: "Buttons"
+            name: "buttons"
+            widget: "list"
+            fields:
+              - { label: "Text", name: "text", widget: "string" }
+              - { label: "Link", name: "link", widget: "string" }
+              - { label: "Style", name: "style", widget: "select", options: ["primary", "secondary"] }
+
+  - name: "special_offer"
+    label: "Special Offer Popup"
+    files:
+      - file: "_data/special_offer.yml"
+        label: "Special Offer"
+        name: "special_offer"
+        fields:
+          - { label: "Enable Popup", name: "enabled", widget: "boolean", default: true }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Description", name: "description", widget: "text" }
+          - { label: "Button Text", name: "button_text", widget: "string" }
+          - { label: "Button Link", name: "button_link", widget: "string" }
+
+  - name: "about"
+    label: "About Section"
+    files:
+      - file: "_data/about.yml"
+        label: "About Content"
+        name: "about_content"
+        fields:
+          - { label: "Section Title", name: "title", widget: "string" }
+          - { label: "Section Subtitle", name: "subtitle", widget: "string" }
+          - label: "About Text"
+            name: "content"
+            widget: "list"
+            field: { label: "Paragraph", name: "paragraph", widget: "text" }
+          - label: "Features"
+            name: "features"
+            widget: "list"
+            fields:
+              - { label: "Icon", name: "icon", widget: "string", hint: "FontAwesome icon class (e.g., fas fa-print)" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+
+  - name: "products"
+    label: "Products"
+    files:
+      - file: "_data/products.yml"
+        label: "Products Grid"
+        name: "products_grid"
+        fields:
+          - { label: "Section Title", name: "title", widget: "string" }
+          - { label: "Section Subtitle", name: "subtitle", widget: "string" }
+          - label: "Product Categories"
+            name: "categories"
+            widget: "list"
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Icon", name: "icon", widget: "string", hint: "FontAwesome icon class" }
+              - { label: "Featured", name: "featured", widget: "boolean", default: false }
+
+  - name: "contact"
+    label: "Contact Information"
+    files:
+      - file: "_data/contact.yml"
+        label: "Contact Details"
+        name: "contact_details"
+        fields:
+          - { label: "Section Title", name: "title", widget: "string" }
+          - { label: "Section Subtitle", name: "subtitle", widget: "string" }
+          - label: "Address"
+            name: "address"
+            widget: "object"
+            fields:
+              - { label: "Street", name: "street", widget: "string" }
+              - { label: "City", name: "city", widget: "string" }
+              - { label: "Postal Code", name: "postal_code", widget: "string" }
+          - label: "Phone Numbers"
+            name: "phones"
+            widget: "list"
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "Number", name: "number", widget: "string" }
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "Google Maps Embed URL", name: "map_embed", widget: "text" }
+
+  - name: "navigation"
+    label: "Navigation"
+    files:
+      - file: "_data/navigation.yml"
+        label: "Navigation Menu"
+        name: "nav_menu"
+        fields:
+          - label: "Menu Items"
+            name: "items"
+            widget: "list"
+            fields:
+              - { label: "Text", name: "text", widget: "string" }
+              - { label: "Link", name: "link", widget: "string" }
+              - { label: "Order", name: "order", widget: "number", default: 1 }
+
+  - name: "footer"
+    label: "Footer"
+    files:
+      - file: "_data/footer.yml"
+        label: "Footer Content"
+        name: "footer_content"
+        fields:
+          - { label: "Copyright Text", name: "copyright", widget: "string" }
+          - { label: "Developer Name", name: "developer_name", widget: "string" }
+          - { label: "Developer Link", name: "developer_link", widget: "string" }

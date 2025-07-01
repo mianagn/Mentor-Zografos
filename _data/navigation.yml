@@ -1,0 +1,13 @@
+items:
+  - text: "Αρχική"
+    link: "#home"
+    order: 1
+  - text: "Σχετικά"
+    link: "#about"
+    order: 2
+  - text: "Προϊόντα"
+    link: "#products"
+    order: 3
+  - text: "Επικοινωνία"
+    link: "#contact"
+    order: 4

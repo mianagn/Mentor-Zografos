@@ -1,0 +1,13 @@
+title: "Θα μας βρείτε"
+subtitle: "Επικοινωνήστε μαζί μας για οποιαδήποτε πληροφορία"
+address:
+  street: "1ο χλμ. Χρυσούπολης – Κεραμωτής"
+  city: "Χρυσούπολη"
+  postal_code: ""
+phones:
+  - label: "Τηλ."
+    number: "25910 23070"
+  - label: "Κιν."
+    number: "6936 504135"
+email: "info@mentorzografos.gr"
+map_embed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3012.479894094833!2d24.696501199999997!3d40.970971399999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14ae9b2f73b53129%3A0xc762bb2e67173e0e!2sMENTORZOGRAFOS!5e0!3m2!1sel!2sgr!4v1751325041051!5m2!1sel!2sgr"

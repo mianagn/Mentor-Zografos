@@ -3,21 +3,36 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, initializing typewriter...');
     
-    // Initialize TypewriterJS
-    const typewriterElement = document.getElementById('typewriter');
-    if (typewriterElement) {
-        const typewriter = new Typewriter(typewriterElement, {
-            loop: false,
-            delay: 75,
-            cursor: '|',
-            deleteSpeed: 50,
-        });
+    // Initialize TypewriterJS with CMS support
+    function initTypewriter() {
+        const typewriterElement = document.getElementById('typewriter');
+        if (typewriterElement) {
+            const typewriter = new Typewriter(typewriterElement, {
+                loop: false,
+                delay: 75,
+                cursor: '|',
+                deleteSpeed: 50,
+            });
 
-        typewriter
-            .pauseFor(800)
-            .typeString('Τα πάντα για σένα και την επιχείρησή σου!')
-            .start();
+            // Use CMS data if available, otherwise use default
+            const heroTitle = window.heroTitle || 'Τα πάντα για σένα και την επιχείρησή σου!';
+            
+            typewriter
+                .pauseFor(800)
+                .typeString(heroTitle)
+                .start();
+        }
     }
+    
+    // Initialize typewriter immediately
+    initTypewriter();
+    
+    // Re-initialize typewriter if CMS data is loaded later
+    setTimeout(() => {
+        if (window.heroTitle) {
+            initTypewriter();
+        }
+    }, 1000);
     
     const navToggle = document.getElementById('nav-toggle');
     const navMenu = document.getElementById('nav-menu');

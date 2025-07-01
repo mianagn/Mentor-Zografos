@@ -1,0 +1,111 @@
+title: "Τα Προϊόντα μας"
+subtitle: "Ολοκληρωμένη γκάμα διαφημιστικών και επαγγελματικών προϊόντων"
+categories:
+  - name: "Θήκες Χαπιών"
+    description: "Ειδικευμένες θήκες και συσκευασίες για φαρμακευτικά προϊόντα"
+    icon: "fas fa-pills"
+    featured: true
+  - name: "Νεσεσέρ Εγγράφων"
+    description: "Πρακτικές θήκες για την οργάνωση και μεταφορά εγγράφων"
+    icon: "fas fa-folder"
+    featured: false
+  - name: "Τσάντες"
+    description: "Διαφημιστικές τσάντες, χαρτοσακούλες, τσάντες non woven"
+    icon: "fas fa-shopping-bag"
+    featured: true
+  - name: "Ισοθερμικά"
+    description: "Τσάντες και κουτιά για τη διατήρηση θερμοκρασίας"
+    icon: "fas fa-snowflake"
+    featured: false
+  - name: "Σακίδια Πλάτης"
+    description: "Πρακτικά και άνετα σακίδια για κάθε χρήση"
+    icon: "fas fa-backpack"
+    featured: false
+  - name: "Νεσεσέρ Καλλυντικών"
+    description: "Κομψές θήκες για καλλυντικά και προϊόντα περιποίησης"
+    icon: "fas fa-spa"
+    featured: false
+  - name: "Πουγγιά"
+    description: "Μικρές τσάντες και πουγγιά για διάφορες χρήσεις"
+    icon: "fas fa-shopping-bag"
+    featured: false
+  - name: "Πορτοφόλια"
+    description: "Στυλάτα πορτοφόλια και θήκες για κάρτες"
+    icon: "fas fa-wallet"
+    featured: false
+  - name: "Μπρελόκ"
+    description: "Διαφημιστικά μπρελόκ σε διάφορα σχέδια και υλικά"
+    icon: "fas fa-key"
+    featured: true
+  - name: "Κομπολόγια"
+    description: "Παραδοσιακά και σύγχρονα κομπολόγια"
+    icon: "fas fa-circle-notch"
+    featured: false
+  - name: "Κορδόνια Λαιμού"
+    description: "Κορδόνια για ταυτότητες και διακριτικά"
+    icon: "fas fa-link"
+    featured: false
+  - name: "Woman"
+    description: "Ειδικά σχεδιασμένα προϊόντα για γυναίκες"
+    icon: "fas fa-venus"
+    featured: false
+  - name: "Παιδικά"
+    description: "Ασφαλή και χρωματιστά προϊόντα για παιδιά"
+    icon: "fas fa-child"
+    featured: true
+  - name: "Στυλό"
+    description: "Διαφημιστικά στυλό σε διάφορα χρώματα και στυλ"
+    icon: "fas fa-pen"
+    featured: false
+  - name: "Αναπτήρες"
+    description: "Προσωποποιημένοι αναπτήρες για προώθηση"
+    icon: "fas fa-burn"
+    featured: false
+  - name: "Antistress"
+    description: "Παιχνίδια και αντικείμενα για την αντιμετώπιση του άγχους"
+    icon: "fas fa-heart"
+    featured: false
+  - name: "Κάπελα Ψάθινα"
+    description: "Παραδοσιακά ψάθινα καπέλα για το καλοκαίρι"
+    icon: "fas fa-hat-cowboy-side"
+    featured: false
+  - name: "Κάπελα με Γείσο"
+    description: "Αθλητικά και casual κάπελα με προστασία από τον ήλιο"
+    icon: "fas fa-baseball-ball"
+    featured: false
+  - name: "Βεντάλιες"
+    description: "Παραδοσιακές και σύγχρονες βεντάλιες"
+    icon: "fas fa-fan"
+    featured: false
+  - name: "Τσάντες Θάλασσας"
+    description: "Αδιάβροχες τσάντες για την παραλία και τη θάλασσα"
+    icon: "fas fa-swimming-pool"
+    featured: false
+  - name: "Ξενοδοχείο"
+    description: "Ειδικά προϊόντα και αναλώσιμα για ξενοδοχεία"
+    icon: "fas fa-bed"
+    featured: false
+  - name: "Καλοκαιρινά"
+    description: "Μπάλες θάλασσας, μπρατσάκια, frisbee, πετσέτες"
+    icon: "fas fa-sun"
+    featured: true
+  - name: "Λογότυπα"
+    description: "Σχεδιασμός και εκτύπωση λογοτύπων"
+    icon: "fas fa-trademark"
+    featured: false
+  - name: "Ετικέτες"
+    description: "Αυτοκόλλητες ετικέτες για κάθε χρήση"
+    icon: "fas fa-tags"
+    featured: false
+  - name: "Συσκευασία"
+    description: "Ολοκληρωμένες λύσεις συσκευασίας προϊόντων"
+    icon: "fas fa-box"
+    featured: true
+  - name: "Κάρτες"
+    description: "Επαγγελματικές κάρτες και κάρτες μέλους"
+    icon: "fas fa-credit-card"
+    featured: false
+  - name: "Ατζέντα 2026"
+    description: "Προγραμματίστε τη νέα χρονιά με στυλ"
+    icon: "fas fa-calendar-alt"
+    featured: true

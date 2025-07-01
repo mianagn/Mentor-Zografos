@@ -1,0 +1,9 @@
+title: "Mentor Zografos"
+subtitle: "Έξυπνες και πρωτοποριακές προτάσεις στο κλάδο προβολής και προώθησης επιχειρήσεων σε πανελλαδική κλίμακα από το 2009"
+buttons:
+  - text: "Δες τα Προϊόντα μας"
+    link: "#products"
+    style: "primary"
+  - text: "Επικοινωνία"
+    link: "#contact"
+    style: "secondary"
