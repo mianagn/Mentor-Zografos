@@ -37,13 +37,36 @@ class CMSLoader {
         };
     }
 
+    // Get current content from HTML as fallback
+    getCurrentContent() {
+        const heroSubtitle = document.querySelector('.hero-subtitle');
+        const aboutSubtitle = document.querySelector('#about .section-subtitle');
+        const productsSubtitle = document.querySelector('#products .section-subtitle');
+        
+        return {
+            hero: {
+                subtitle: heroSubtitle ? heroSubtitle.textContent : this.fallbackData.hero.subtitle
+            },
+            about: {
+                subtitle: aboutSubtitle ? aboutSubtitle.textContent : this.fallbackData.about.subtitle
+            },
+            products: {
+                subtitle: productsSubtitle ? productsSubtitle.textContent : this.fallbackData.products.subtitle
+            }
+        };
+    }
+
     async init() {
         try {
             console.log('Initializing CMS Loader...');
+            
+            // First, capture current HTML content
+            this.currentContent = this.getCurrentContent();
+            
             await this.loadAllData();
         } catch (error) {
-            console.log('CMS data not found, using default content:', error);
-            this.loadFallbackData();
+            console.log('CMS data not found, preserving existing content:', error);
+            // Don't override existing content, just leave it as is
         }
     }
 
@@ -158,16 +181,17 @@ class CMSLoader {
             this.loadYAML('special_offer.yml')
         ]);
 
-        // Use CMS data if available, otherwise use fallback
-        this.updateSiteData(site || this.fallbackData.site);
-        this.updateHeroData(hero || this.fallbackData.hero);
-        this.updateAboutData(about || this.fallbackData.about);
-        this.updateProductsData(products || this.fallbackData.products);
-        this.updateContactData(contact || this.fallbackData.contact);
-        this.updateSpecialOfferData(specialOffer || this.fallbackData.specialOffer);
+        // Only update content if we have valid CMS data, otherwise preserve existing HTML
+        if (site && site.title) this.updateSiteData(site);
+        if (hero && hero.title) this.updateHeroData(hero);
+        if (about && about.title) this.updateAboutData(about);
+        if (products && products.title) this.updateProductsData(products);
+        if (contact && contact.title) this.updateContactData(contact);
+        if (specialOffer && typeof specialOffer.enabled !== 'undefined') this.updateSpecialOfferData(specialOffer);
         
-        if (navigation) this.updateNavigationData(navigation);
-        if (footer) this.updateFooterData(footer);
+        // These are optional and only update if data exists
+        if (navigation && navigation.items) this.updateNavigationData(navigation);
+        if (footer && footer.copyright) this.updateFooterData(footer);
         
         console.log('CMS data loaded successfully');
     }
@@ -199,11 +223,11 @@ class CMSLoader {
 
     updateHeroData(data) {
         console.log('Updating hero data:', data);
-        if (data && data.title) {
+        if (data && typeof data.title === 'string' && data.title.trim()) {
             // Update typewriter text (this will be handled by the existing typewriter script)
             window.heroTitle = data.title;
         }
-        if (data && data.subtitle) {
+        if (data && typeof data.subtitle === 'string' && data.subtitle.trim()) {
             const subtitle = document.querySelector('.hero-subtitle');
             if (subtitle) subtitle.textContent = data.subtitle;
         }
@@ -224,11 +248,11 @@ class CMSLoader {
 
     updateAboutData(data) {
         console.log('Updating about data:', data);
-        if (data && data.title) {
+        if (data && typeof data.title === 'string' && data.title.trim()) {
             const title = document.querySelector('#about .section-title');
             if (title) title.textContent = data.title;
         }
-        if (data && data.subtitle) {
+        if (data && typeof data.subtitle === 'string' && data.subtitle.trim()) {
             const subtitle = document.querySelector('#about .section-subtitle');
             if (subtitle) subtitle.textContent = data.subtitle;
         }
@@ -237,7 +261,7 @@ class CMSLoader {
             if (textContainer) {
                 textContainer.innerHTML = '';
                 data.content.forEach(paragraph => {
-                    if (typeof paragraph === 'string') {
+                    if (typeof paragraph === 'string' && paragraph.trim()) {
                         const p = document.createElement('p');
                         p.textContent = paragraph;
                         textContainer.appendChild(p);
@@ -250,7 +274,7 @@ class CMSLoader {
             if (featuresContainer) {
                 featuresContainer.innerHTML = '';
                 data.features.forEach(feature => {
-                    if (feature && feature.title) {
+                    if (feature && typeof feature.title === 'string' && feature.title.trim()) {
                         const featureDiv = document.createElement('div');
                         featureDiv.className = 'feature';
                         featureDiv.innerHTML = `
@@ -269,11 +293,11 @@ class CMSLoader {
 
     updateProductsData(data) {
         console.log('Updating products data:', data);
-        if (data && data.title) {
+        if (data && typeof data.title === 'string' && data.title.trim()) {
             const title = document.querySelector('#products .section-title');
             if (title) title.textContent = data.title;
         }
-        if (data && data.subtitle) {
+        if (data && typeof data.subtitle === 'string' && data.subtitle.trim()) {
             const subtitle = document.querySelector('#products .section-subtitle');
             if (subtitle) subtitle.textContent = data.subtitle;
         }
@@ -282,7 +306,7 @@ class CMSLoader {
             if (grid) {
                 grid.innerHTML = '';
                 data.categories.forEach(category => {
-                    if (category && category.name) {
+                    if (category && typeof category.name === 'string' && category.name.trim()) {
                         const categoryDiv = document.createElement('div');
                         categoryDiv.className = 'product-category';
                         if (category.featured) {
@@ -304,21 +328,21 @@ class CMSLoader {
 
     updateContactData(data) {
         console.log('Updating contact data:', data);
-        if (data && data.title) {
+        if (data && typeof data.title === 'string' && data.title.trim()) {
             const title = document.querySelector('#contact .section-title');
             if (title) title.textContent = data.title;
         }
-        if (data && data.subtitle) {
+        if (data && typeof data.subtitle === 'string' && data.subtitle.trim()) {
             const subtitle = document.querySelector('#contact .section-subtitle');
             if (subtitle) subtitle.textContent = data.subtitle;
         }
         
-        // Update contact items only if all required data is present
+        // Update contact items only if all required data is present and valid
         const contactInfo = document.querySelector('.contact-info');
         if (contactInfo && data && data.address && data.phones && data.email) {
             // Update address
             const addressP = contactInfo.querySelector('.contact-item:first-child .contact-details p');
-            if (addressP && data.address.street) {
+            if (addressP && data.address.street && typeof data.address.street === 'string') {
                 addressP.textContent = data.address.street;
             }
             
@@ -327,7 +351,7 @@ class CMSLoader {
             if (phoneDetails && data.phones && Array.isArray(data.phones)) {
                 phoneDetails.innerHTML = '<h3>Τηλέφωνα</h3>';
                 data.phones.forEach(phone => {
-                    if (phone && phone.label && phone.number) {
+                    if (phone && phone.label && phone.number && typeof phone.label === 'string' && typeof phone.number === 'string') {
                         const p = document.createElement('p');
                         p.textContent = `${phone.label}: ${phone.number}`;
                         phoneDetails.appendChild(p);
@@ -337,10 +361,10 @@ class CMSLoader {
             
             // Update email
             const emailP = contactInfo.querySelector('.contact-item:nth-child(3) .contact-details p');
-            if (emailP && data.email) emailP.textContent = data.email;
+            if (emailP && data.email && typeof data.email === 'string') emailP.textContent = data.email;
         }
         
-        if (data && data.map_embed) {
+        if (data && data.map_embed && typeof data.map_embed === 'string') {
             const iframe = document.querySelector('.map-container iframe');
             if (iframe) iframe.src = data.map_embed;
         }
